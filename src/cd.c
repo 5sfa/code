@@ -6,7 +6,7 @@
 /*   By: aajaanan <aajaanan@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 09:02:21 by aajaanan          #+#    #+#             */
-/*   Updated: 2023/08/21 14:57:28 by aajaanan         ###   ########.fr       */
+/*   Updated: 2023/08/26 11:21:15 by aajaanan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,15 +134,17 @@ void	update_pwd(t_env_var *env_var_list)
 {
 	char		*pwd;
 	t_env_var	*tmp;
+	t_env_var	*old_pwd;
 	
 	pwd = getcwd(NULL, 0);
-	// ft_printf("pwd is : %s\n", pwd);
 	tmp = env_var_list;
+	
 	while (tmp)
 	{
 		if (strcmp(tmp->key, "PWD") == 0)
 		{
-			free(tmp->value);
+			old_pwd = env_var_new(ft_strdup("OLDPWD"), tmp->value);
+			env_var_insert_sorted(&env_var_list, old_pwd);
 			tmp->value = ft_strdup(pwd);
 			free(pwd);
 			return ;

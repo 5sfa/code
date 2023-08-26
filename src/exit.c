@@ -6,11 +6,13 @@
 /*   By: aajaanan <aajaanan@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 08:11:59 by aajaanan          #+#    #+#             */
-/*   Updated: 2023/08/22 08:53:37 by aajaanan         ###   ########.fr       */
+/*   Updated: 2023/08/25 16:04:09 by aajaanan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+#include <stdlib.h>
+#include <limits.h>
 
 int	is_numeric(const char *str)
 {
@@ -127,10 +129,31 @@ void	exit_command(char **argv, int *exit_status)
 		}
 		else
 		{
+			// ft_printf("exit\n");
+			// long long exit_code = atoll(arg);
+			// free(arg);
+			// exit(exit_code);
+
 			ft_printf("exit\n");
-			int exit_code = ft_atoi(arg);
+			char *endptr;
+			long long exit_code = strtoll(arg, &endptr, 10);
+
+			// Check for overflow and underflow
+			if ((exit_code == LLONG_MAX && errno == ERANGE) ||
+				(exit_code == LLONG_MIN && errno == ERANGE))
+			{
+				ft_printf_fd(2, "minishell: exit: %s: numeric argument required\n", arg);
+				free(arg);
+				exit(255);
+			}
+
 			free(arg);
 			exit(exit_code);
 		}
+	}
+	else
+	{
+		ft_printf("exit\n");
+		exit(0);
 	}
 }

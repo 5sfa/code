@@ -6,7 +6,7 @@
 /*   By: aajaanan <aajaanan@student.42abudhabi.a    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 10:04:49 by aajaanan          #+#    #+#             */
-/*   Updated: 2023/08/21 14:45:33 by aajaanan         ###   ########.fr       */
+/*   Updated: 2023/08/26 13:30:49 by aajaanan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,8 +100,19 @@ void	copy_env_to_list(char **envp, t_env_var **env_var_list)
 	while (envp[i])
 	{
 		key_value = ft_split(envp[i], '=');
+		// if (ft_strcmp(key_value[0], "OLDPWD") == 0)
+		// {
+		// 	new_node = env_var_new(ft_strdup(key_value[0]), NULL);
+		// }
+		// else
+		// {
+		// 	value = ft_strchr(envp[i], '=') + 1;
+		// 	new_node = env_var_new(ft_strdup(key_value[0]), ft_strdup(value));
+		// }
+		
 		value = ft_strchr(envp[i], '=') + 1;
 		new_node = env_var_new(ft_strdup(key_value[0]), ft_strdup(value));
+		
 		env_var_insert_sorted(env_var_list, new_node);
 		free_args(key_value);
 		i++;
